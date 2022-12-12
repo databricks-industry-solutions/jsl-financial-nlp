@@ -60,6 +60,24 @@
 # COMMAND ----------
 
 # MAGIC %md
+# MAGIC # Installing visualization libs
+
+# COMMAND ----------
+
+!pip install networkx==2.5 decorator==5.0.9 plotly==5.1.0
+
+# COMMAND ----------
+
+import importlib
+import networkx as nx
+import decorator as dc
+
+importlib.reload(nx)
+importlib.reload(dc)
+
+# COMMAND ----------
+
+# MAGIC %md
 # MAGIC # Starting a session
 
 # COMMAND ----------
@@ -72,17 +90,14 @@
 
 # COMMAND ----------
 
-# MAGIC %pip install johnsnowlabs networkx plotly
-
-# COMMAND ----------
-
 # MAGIC %md
 # MAGIC 
 # MAGIC #Imports
 
 # COMMAND ----------
 
-from johnsnowlabs import * 
+from johnsnowlabs import nlp, finance, viz
+
 import os
 import sys
 import time
@@ -105,7 +120,6 @@ from scipy import spatial
 
 # COMMAND ----------
 
-import networkx as nx
 G = nx.Graph()
 
 # COMMAND ----------
@@ -255,7 +269,7 @@ def get_generic_base_pipeline():
       .setInputCols(["sentence", "token"])\
       .setOutputCol("embeddings")
 
-  base_pipeline = Pipeline(stages=[
+  base_pipeline = nlp.Pipeline(stages=[
       document_assembler,
       sentence_detector,
       tokenizer,
@@ -285,7 +299,7 @@ def get_text_classification_pipeline(model):
       .setInputCols(["sentence_embeddings"])\
       .setOutputCol("category")
 
-  nlpPipeline = Pipeline(stages=[
+  nlpPipeline = nlp.Pipeline(stages=[
       documentAssembler, 
       useEmbeddings,
       docClassifier])
@@ -359,7 +373,7 @@ ner_converter_sec10k = nlp.NerConverter()\
     .setInputCols(["sentence","token","ner_summary"])\
     .setOutputCol("ner_chunk_sec10k")
 
-summary_pipeline = Pipeline(stages=[
+summary_pipeline = nlp.Pipeline(stages=[
     generic_base_pipeline,
     ner_model_sec10k,
     ner_converter_sec10k
@@ -372,8 +386,7 @@ summary_pipeline = Pipeline(stages=[
 
 # COMMAND ----------
 
-from sparknlp_display import NerVisualizer
-from sparknlp.base import LightPipeline
+from johnsnowlabs.nlp import LightPipeline
 
 ner_vis = viz.NerVisualizer()
 
@@ -489,15 +502,17 @@ embeddings = nlp.UniversalSentenceEncoder.pretrained("tfhub_use", "en") \
       .setOutputCol("sentence_embeddings")
     
 resolver = finance.SentenceEntityResolverModel.pretrained("finel_edgar_company_name", "en", "finance/models")\
-      .setInputCols(["ner_chunk", "sentence_embeddings"]) \
+      .setInputCols(["sentence_embeddings"]) \
       .setOutputCol("normalization")\
       .setDistanceFunction("EUCLIDEAN")
 
-pipelineModel = PipelineModel(
+pipeline = nlp.Pipeline(
       stages = [
           documentAssembler,
           embeddings,
           resolver])
+
+pipelineModel = pipeline.fit(empty_data)
 
 lp = LightPipeline(pipelineModel)
 
@@ -537,25 +552,31 @@ G.add_edge(ORG, NORM_ORG, attr_dict={'relation': 'has_official_name'})
 
 # COMMAND ----------
 
+NORM_ORG
+
+# COMMAND ----------
+
 documentAssembler = nlp.DocumentAssembler()\
         .setInputCol("text")\
         .setOutputCol("document")
 
-chunkAssembler = nlp.Doc2Chunk() \
-    .setInputCols("document") \
-    .setOutputCol("chunk") \
-    .setIsArray(False)
-
 CM = finance.ChunkMapperModel()\
       .pretrained("finmapper_edgar_companyname", "en", "finance/models")\
-      .setInputCols(["chunk"])\
+      .setInputCols(["document"])\
       .setOutputCol("mappings")
       
-cm_pipeline = Pipeline(stages=[documentAssembler, chunkAssembler, CM])
+cm_pipeline = nlp.Pipeline(stages=[documentAssembler, CM])
 fit_cm_pipeline = cm_pipeline.fit(empty_data)
 
-df = spark.createDataFrame([[NORM_ORG]]).toDF("text")
-r = fit_cm_pipeline.transform(df).collect()
+cm_lp = LightPipeline(fit_cm_pipeline)
+
+mapping = cm_lp.fullAnnotate(NORM_ORG)[0]
+
+
+
+# COMMAND ----------
+
+mapping
 
 # COMMAND ----------
 
@@ -564,14 +585,14 @@ r = fit_cm_pipeline.transform(df).collect()
 
 # COMMAND ----------
 
-mappings = r[0]['mappings']
-for mapping in mappings:
-  text = mapping.result
-  relation = mapping.metadata['relation']
-  print(f"{ORG} - has_{relation} - {text}")
-    
-  G.add_node(text, attr_dict={'entity': relation}),
-  G.add_edge(ORG, text, attr_dict={'relation': 'has_' + relation.lower()})  
+for key, value in mapping.items():
+  if key == 'mappings':
+    for relation in mapping[key]:
+      text = relation.result
+      relation_name = relation.metadata['relation']
+      print(f"{ORG} - has_{relation_name} - {text}")
+      G.add_node(text, attr_dict={'entity': relation_name}),
+      G.add_edge(ORG, text, attr_dict={'relation': 'has_' + relation_name.lower()})
 
 # COMMAND ----------
 
@@ -645,11 +666,11 @@ chunk_merger = finance.ChunkMergeApproach()\
         .setInputCols('ner_chunk_org', "ner_chunk_date")\
         .setOutputCol('ner_chunk')
 
-pos = PerceptronModel.pretrained()\
+pos = nlp.PerceptronModel.pretrained()\
     .setInputCols(["sentence", "token"])\
     .setOutputCol("pos")
 
-dependency_parser = DependencyParserModel().pretrained("dependency_conllu", "en")\
+dependency_parser = nlp.DependencyParserModel().pretrained("dependency_conllu", "en")\
     .setInputCols(["sentence", "pos", "token"])\
     .setOutputCol("dependencies")
 
@@ -680,7 +701,7 @@ annotation_merger = finance.AnnotationMerger()\
     .setInputCols("relations_acq", "relations_alias")\
     .setOutputCol("relations")
 
-nlpPipeline = Pipeline(stages=[
+nlpPipeline = nlp.Pipeline(stages=[
         generic_base_pipeline,
         ner_model_date,
         ner_converter_date,
@@ -703,6 +724,7 @@ light_model = LightPipeline(model)
 
 # COMMAND ----------
 
+# We normalize some quotes
 sample_text = pages[67].replace("“", "\"").replace("”", "\"")
 
 # COMMAND ----------
@@ -716,8 +738,6 @@ rel_df = get_relations_df(result)
 # MAGIC ### Visualize Results
 
 # COMMAND ----------
-
-from sparknlp_display import RelationExtractionVisualizer
 
 re_vis = viz.RelationExtractionVisualizer()
 displayHTML(re_vis.display(result = result[0], relation_col = "relations", document_col = "document", exclude_relations = ["other", "no_rel"], return_html=True, show_relations=True))
@@ -806,10 +826,6 @@ paragraphs
 
 # COMMAND ----------
 
-
-
-# COMMAND ----------
-
 candidates = [[x] for x in paragraphs]
 
 # COMMAND ----------
@@ -836,14 +852,6 @@ ner_model_role = finance.NerModel.pretrained("finner_org_per_role_date", "en", "
 ner_converter_role = nlp.NerConverter()\
     .setInputCols(["sentence","token","ner_role"])\
     .setOutputCol("ner_chunk_role")
-
-pos = PerceptronModel.pretrained()\
-    .setInputCols(["sentence", "token"])\
-    .setOutputCol("pos")
-
-dependency_parser = DependencyParserModel().pretrained("dependency_conllu", "en")\
-    .setInputCols(["sentence", "pos", "token"])\
-    .setOutputCol("dependencies")
 
 re_ner_chunk_filter_role = finance.RENerChunksFilter()\
     .setInputCols(["ner_chunk_role", "dependencies"])\
