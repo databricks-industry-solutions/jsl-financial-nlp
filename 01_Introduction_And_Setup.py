@@ -1,4 +1,12 @@
 # Databricks notebook source
+# MAGIC %md You may find this series of notebooks at https://github.com/databricks-industry-solutions/jsl-financial-nlp
+
+# COMMAND ----------
+
+# MAGIC %pip install johnsnowlabs==4.2.3 networkx==2.5 decorator==5.0.9 plotly==5.1.0 
+
+# COMMAND ----------
+
 # MAGIC %md
 # MAGIC # Introduction
 # MAGIC In this series of notebooks, we are going to analyze a 10K filing, obtained from US Security Exchange Commission's Edgar database, and create a financial knowledge graph with information from it, including registry information...

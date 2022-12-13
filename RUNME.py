@@ -77,25 +77,81 @@ job_json = {
             {
                 "existing_cluster_id": cluster_id,
                 "notebook_task": {
-                    "notebook_path": "1_JSL_Financial_Ecosystem"
+                    "notebook_path": "01_Introduction_And_Setup"
                 },
                 "task_key": "jsl_fin_01",
                 "description": ""
             },
-#             {
-#                 "existing_cluster_id": cluster_id,
-#                 "libraries": [],
-#                 "notebook_task": {
-#                     "notebook_path": "01-ade-extraction"
-#                 },
-#                 "task_key": "jsl_fin_02",
-#                 "description": "",
-#                 "depends_on": [
-#                     {
-#                         "task_key": "jsl_fin_01"
-#                     }
-#                 ]
-#             },
+            {
+                "existing_cluster_id": cluster_id,
+                "libraries": [],
+                "notebook_task": {
+                    "notebook_path": "02_10K_Analysis"
+                },
+                "task_key": "jsl_fin_02",
+                "description": "",
+                "depends_on": [
+                    {
+                        "task_key": "jsl_fin_01"
+                    }
+                ]
+            },
+            {
+                "existing_cluster_id": cluster_id,
+                "libraries": [],
+                "notebook_task": {
+                    "notebook_path": "03_Named_Entity_Recognition"
+                },
+                "task_key": "jsl_fin_03",
+                "description": "",
+                "depends_on": [
+                    {
+                        "task_key": "jsl_fin_02"
+                    }
+                ]
+            },
+            {
+                "existing_cluster_id": cluster_id,
+                "libraries": [],
+                "notebook_task": {
+                    "notebook_path": "04_Normalization_Data_Augmentation"
+                },
+                "task_key": "jsl_fin_04",
+                "description": "",
+                "depends_on": [
+                    {
+                        "task_key": "jsl_fin_03"
+                    }
+                ]
+            },
+            {
+                "existing_cluster_id": cluster_id,
+                "libraries": [],
+                "notebook_task": {
+                    "notebook_path": "05_Relation_Extraction"
+                },
+                "task_key": "jsl_fin_05",
+                "description": "",
+                "depends_on": [
+                    {
+                        "task_key": "jsl_fin_04"
+                    }
+                ]
+            },
+            {
+                "existing_cluster_id": cluster_id,
+                "libraries": [],
+                "notebook_task": {
+                    "notebook_path": "06_Understanding_Entities_in_Context"
+                },
+                "task_key": "jsl_fin_06",
+                "description": "",
+                "depends_on": [
+                    {
+                        "task_key": "jsl_fin_05"
+                    }
+                ]
+            }
         ]
     }
 

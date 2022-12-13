@@ -1,4 +1,12 @@
 # Databricks notebook source
+# MAGIC %md You may find this series of notebooks at https://github.com/databricks-industry-solutions/jsl-financial-nlp
+
+# COMMAND ----------
+
+# MAGIC %pip install johnsnowlabs==4.2.3 networkx==2.5 decorator==5.0.9 plotly==5.1.0 
+
+# COMMAND ----------
+
 # MAGIC %md
 # MAGIC ## NER and Relation Extraction
 # MAGIC NER only extracts isolated entities by itself. But you can combine some NER with specific Relation Extraction Annotators trained for them, to retrieve if the entities are related to each other.

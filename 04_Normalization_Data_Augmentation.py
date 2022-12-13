@@ -1,4 +1,12 @@
 # Databricks notebook source
+# MAGIC %md You may find this series of notebooks at https://github.com/databricks-industry-solutions/jsl-financial-nlp
+
+# COMMAND ----------
+
+# MAGIC %pip install johnsnowlabs==4.2.3 networkx==2.5 decorator==5.0.9 plotly==5.1.0 
+
+# COMMAND ----------
+
 # MAGIC %md
 # MAGIC ## Normalizing the company name to query John Snow Labs datasources for more information about Cadence
 
