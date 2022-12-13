@@ -1,3 +1,4 @@
+# Databricks notebook source
 import plotly.graph_objects as go
 import networkx as nx
 import pandas as pd
@@ -108,3 +109,4 @@ def get_relations_df(results, col='relations'):
                                    'entity2_begin', 'entity2_end', 'chunk2', 'confidence'])
 
     return rel_df
+
