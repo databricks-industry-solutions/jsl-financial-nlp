@@ -4,23 +4,36 @@
 [![CLOUD](https://img.shields.io/badge/CLOUD-ALL-blue?logo=googlecloud&style=for-the-badge)](https://cloud.google.com/databricks)
 [![POC](https://img.shields.io/badge/POC-10_days-green?style=for-the-badge)](https://databricks.com/try-databricks)
 
-*Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.*
+# Financial Solution Accelerator: Drawing a Company Ecosystem Graph
+This accelerator will help you process Financial Annual Reports (10K filings) or even Wikipedia data about companies, using John Snow Labs Finance NLP **Named Entity Recognition, Relation Extraction and Assertion Status**, to extract the following information about companies:
+- Information about the Company itself (`Trading Symbol`, `State`, `Address`, Contact Information) and other names the Company is known by (`alias`, `former name`).
+- People (usually management and C-level) working in that company and their past experiences, including roles and companies
+- `Acquisitions` events, including the acquisition dates. `Subsidiaries` mentioned.
+- Other Companies mentioned in the report as `competitors`: we will also run a "Competitor check", to understand if another company is just in the ecosystem / supply chain of the company or it is really a competitor
+- Temporality (`past`, `present`, `future`) and Certainty (`possible`) of events described, including `Forward-looking statements`.
+
+Also, John Snow Labs provides with offline modules to check for Edgar database (**Entity Linking** to resolve an organization name to its official name and **Chunk Mappers** to map a normalized name to Edgar Database), which are quarterly updated. We will using them to retrieve the `official name of a company`, `former names`, `dates where names where changed`, etc.
 
 ___
-<john.doe@databricks.com>
+
+- Juan Martinez @ John Snow Labs <juan@johnsnowlabs.com>
+- <john.doe@databricks.com>
 
 ___
 
 
-IMAGE TO REFERENCE ARCHITECTURE
+<img src="https://github.com/JohnSnowLabs/spark-nlp-workshop/raw/master/tutorials/Certification_Trainings_JSL/Finance/data/financial_solution_accelerator.png" alt="John Snow Labs Financial Solution Accelerator" width="800"/>
 
 ___
 
 &copy; 2022 Databricks, Inc. All rights reserved. The source in this notebook is provided subject to the Databricks License [https://databricks.com/db-license-source].  All included or referenced third party libraries are subject to the licenses set forth below.
 
-| library                                | description             | license    | source                                              |
-|----------------------------------------|-------------------------|------------|-----------------------------------------------------|
-| PyYAML                                 | Reading Yaml files      | MIT        | https://github.com/yaml/pyyaml                      |
+| library                                | description             | license     | source                                              |
+|----------------------------------------|-------------------------|-------------|-----------------------------------------------------|
+| johnsnowlabs==4.2.3                    | Financial NLP library   | Propietary  | https://www.johnsnowlabs.com/finance-nlp/           |
+| networkx==2.5                          | Knowledge Graph creation| [3-clause BSD](https://raw.githubusercontent.com/networkx/networkx/master/LICENSE.txt)|https://networkx.org/|
+| decorator==5.0.9                       | Python decorators       | [2-clause BSD](https://github.com/micheles/decorator/blob/master/LICENSE.txt)| https://github.com/micheles/decorator|
+| plotly==5.1.0                          | Visualization library   | [MIT](https://github.com/plotly/plotly.py/blob/master/LICENSE.txt) | https://plotly.com/                      |
 
 ## Instruction
 
