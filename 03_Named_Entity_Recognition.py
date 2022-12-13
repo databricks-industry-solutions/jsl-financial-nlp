@@ -59,48 +59,9 @@ generic_base_pipeline = get_generic_base_pipeline()
 
 # COMMAND ----------
 
-#!wget https://raw.githubusercontent.com/JohnSnowLabs/spark-nlp-workshop/master/tutorials/Certification_Trainings_JSL/Finance/data/cdns-20220101.html.txt
-
-# COMMAND ----------
-
-with open('cdns-20220101.html.txt', 'r') as f:
-  cadence_sec10k = f.read()
-
-# COMMAND ----------
-
-# MAGIC %md
-# MAGIC ## Let's use `SentenceDetector` as a Page Splitter
-# MAGIC Using `Table of Contents`, which is present at the end of each page as a marker of new page
-
-# COMMAND ----------
-
-document_assembler = nlp.DocumentAssembler() \
-        .setInputCol("text") \
-        .setOutputCol("document")
-
-sentence_detector = nlp.SentenceDetector() \
-    .setInputCols(["document"]) \
-    .setOutputCol("pages")\
-    .setCustomBounds(["Table of Contents"])\
-    .setUseCustomBoundsOnly(True)
-
-nlp_pipeline = nlp.Pipeline(stages=[
-    document_assembler, 
-    sentence_detector])
-
-# COMMAND ----------
-
-from johnsnowlabs.nlp import LightPipeline
-
-empty_data = spark.createDataFrame([[""]]).toDF("text")
-sentence_splitting_pipe = nlp_pipeline.fit(empty_data)
-sentence_splitting_lightpipe = LightPipeline(sentence_splitting_pipe)
-
-# COMMAND ----------
-
-res = sentence_splitting_lightpipe.annotate(cadence_sec10k)
-pages = res['pages']
-pages = [p for p in pages if p.strip() != ''] # We remove empty pages
+import pickle
+with open('cadence_pages.pickle', 'rb') as f:
+  pages = pickle.load(f)
 
 # COMMAND ----------
 

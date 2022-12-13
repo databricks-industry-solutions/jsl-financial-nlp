@@ -75,6 +75,12 @@ pages = [p for p in pages if p.strip() != ''] # We remove empty pages
 
 # COMMAND ----------
 
+import pickle
+with open('cadence_pages.pickle', 'wb') as f:
+  pickle.dump(pages, f)
+
+# COMMAND ----------
+
 # MAGIC %md
 # MAGIC The first page has the usual **10-K summary** information, which is very useful
 
@@ -238,6 +244,11 @@ result.select('category.result').show()
 
 # COMMAND ----------
 
+with open('cadence_people_paragraphs.pickle', 'wb') as f:
+  pickle.dump(paragraphs, f)
+
+# COMMAND ----------
+
 # MAGIC %md
 # MAGIC # Continue you analysis
 # MAGIC Make sure you understand the contents of a 10-K and what information can be extracted. In the following notebooks we are going to extract all of that information using Finance NLP
@@ -245,7 +256,7 @@ result.select('category.result').show()
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC # You are ready to proceed to the 03 Entity Extraction notebook!
+# MAGIC # You are ready to proceed to the 03 Named Entity Recognition notebook!
 
 # COMMAND ----------
 

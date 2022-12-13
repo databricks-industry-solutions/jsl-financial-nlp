@@ -22,7 +22,7 @@ ___
 ___
 
 
-<img src="https://github.com/JohnSnowLabs/spark-nlp-workshop/raw/master/tutorials/Certification_Trainings_JSL/Finance/data/financial_solution_accelerator.png" alt="John Snow Labs Financial Solution Accelerator" width="800"/>
+<img src="https://raw.githubusercontent.com/JohnSnowLabs/spark-nlp-workshop/master/tutorials/Certification_Trainings_JSL/Finance/data/solution_accelerator_ecosystem/financial_solution_accelerator.png" alt="John Snow Labs Financial Solution Accelerator" width="800"/>
 
 ___
 
@@ -34,6 +34,11 @@ ___
 | networkx==2.5                          | Knowledge Graph creation| [3-clause BSD](https://raw.githubusercontent.com/networkx/networkx/master/LICENSE.txt)|https://networkx.org/|
 | decorator==5.0.9                       | Python decorators       | [2-clause BSD](https://github.com/micheles/decorator/blob/master/LICENSE.txt)| https://github.com/micheles/decorator|
 | plotly==5.1.0                          | Visualization library   | [MIT](https://github.com/plotly/plotly.py/blob/master/LICENSE.txt) | https://plotly.com/                      |
+
+## Requirements
+This solution accelerator has been prepared using the following configuration:
+
+<img src="https://raw.githubusercontent.com/JohnSnowLabs/spark-nlp-workshop/master/tutorials/Certification_Trainings_JSL/Finance/data/solution_accelerator_ecosystem/cluster.png" alt="John Snow Labs Financial Solution Accelerator" width="1400"/>
 
 ## Instruction
 
