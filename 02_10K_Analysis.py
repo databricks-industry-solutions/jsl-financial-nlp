@@ -19,6 +19,11 @@
 
 # COMMAND ----------
 
+import os
+os.chdir("/databricks/driver") # making the current directory somewhere we can write temp data to
+
+# COMMAND ----------
+
 !wget https://raw.githubusercontent.com/JohnSnowLabs/spark-nlp-workshop/master/tutorials/Certification_Trainings_JSL/Finance/data/cdns-20220101.html.txt
 
 # COMMAND ----------
