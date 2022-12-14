@@ -41,11 +41,11 @@ generic_base_pipeline = get_generic_base_pipeline()
 # COMMAND ----------
 
 # load graph object from file
-G = pickle.load(open('cadence.pickle', 'rb'))
+G = pickle.load(open('/databricks/driver/cadence.pickle', 'rb'))
 
 # COMMAND ----------
 
-with open('cadence_pages.pickle', 'rb') as f:
+with open('/databricks/driver/cadence_pages.pickle', 'rb') as f:
   pages = pickle.load(f)
 
 # COMMAND ----------
@@ -212,7 +212,7 @@ show_graph_in_plotly(G)
 
 import pickle
 
-paragraphs = pickle.load(open('cadence_people_paragraphs.pickle', 'rb'))
+paragraphs = pickle.load(open('/databricks/driver/cadence_people_paragraphs.pickle', 'rb'))
 
 # COMMAND ----------
 
@@ -314,7 +314,7 @@ show_graph_in_plotly(G)
 import pickle
 
 # save graph object to file
-pickle.dump(G, open('cadence.pickle', 'wb'))
+pickle.dump(G, open('/databricks/driver/cadence.pickle', 'wb'))
 
 # COMMAND ----------
 

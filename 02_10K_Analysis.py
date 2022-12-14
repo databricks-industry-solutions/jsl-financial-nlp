@@ -19,12 +19,7 @@
 
 # COMMAND ----------
 
-import os
-os.chdir("/databricks/driver") # making the current directory somewhere we can write temp data to
-
-# COMMAND ----------
-
-!wget https://raw.githubusercontent.com/JohnSnowLabs/spark-nlp-workshop/master/tutorials/Certification_Trainings_JSL/Finance/data/cdns-20220101.html.txt
+!wget -O /databricks/driver/cdns-20220101.html.txt https://raw.githubusercontent.com/JohnSnowLabs/spark-nlp-workshop/master/tutorials/Certification_Trainings_JSL/Finance/data/cdns-20220101.html.txt
 
 # COMMAND ----------
 
@@ -33,7 +28,7 @@ os.chdir("/databricks/driver") # making the current directory somewhere we can w
 
 # COMMAND ----------
 
-with open('cdns-20220101.html.txt', 'r') as f:
+with open('/databricks/driver/cdns-20220101.html.txt', 'r') as f:
   cadence_sec10k = f.read()
 print(cadence_sec10k[:200])
 
@@ -44,8 +39,6 @@ print(cadence_sec10k[:200])
 
 # COMMAND ----------
 
-with open('cdns-20220101.html.txt', 'r') as f:
-  cadence_sec10k = f.read()
 print(cadence_sec10k[:700])
 
 # COMMAND ----------
@@ -89,7 +82,7 @@ pages = [p for p in pages if p.strip() != ''] # We remove empty pages
 # COMMAND ----------
 
 import pickle
-with open('cadence_pages.pickle', 'wb') as f:
+with open('/databricks/driver/cadence_pages.pickle', 'wb') as f:
   pickle.dump(pages, f)
 
 # COMMAND ----------
@@ -257,7 +250,7 @@ result.select('category.result').show()
 
 # COMMAND ----------
 
-with open('cadence_people_paragraphs.pickle', 'wb') as f:
+with open('/databricks/driver/cadence_people_paragraphs.pickle', 'wb') as f:
   pickle.dump(paragraphs, f)
 
 # COMMAND ----------
