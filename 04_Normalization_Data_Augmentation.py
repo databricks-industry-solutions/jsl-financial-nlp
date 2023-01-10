@@ -3,7 +3,14 @@
 
 # COMMAND ----------
 
-# MAGIC %pip install johnsnowlabs==4.2.3 networkx==2.5 decorator==5.0.9 plotly==5.1.0 
+# MAGIC %md 
+# MAGIC # Preinstallation
+# MAGIC `johnsnowlabs` should come installed in your cluster. Just in case it is not, we install it.
+# MAGIC We also install visualization libraries for rendering the graph.
+
+# COMMAND ----------
+
+# MAGIC %pip install networkx==2.5 decorator==5.0.9 plotly==5.1.0 
 
 # COMMAND ----------
 
@@ -126,27 +133,35 @@ documentAssembler = nlp.DocumentAssembler()\
         .setInputCol("text")\
         .setOutputCol("document")
 
+chunkAssembler = nlp.Doc2Chunk() \
+    .setInputCols("document") \
+    .setChunkCol("text") \
+    .setOutputCol("chunk")
+
 CM = finance.ChunkMapperModel()\
       .pretrained("finmapper_edgar_companyname", "en", "finance/models")\
-      .setInputCols(["document"])\
+      .setInputCols(["chunk"])\
       .setOutputCol("mappings")
       
-cm_pipeline = nlp.Pipeline(stages=[documentAssembler, CM])
+cm_pipeline = nlp.Pipeline(stages=[documentAssembler, chunkAssembler, CM])
 fit_cm_pipeline = cm_pipeline.fit(empty_data)
 
-cm_lp = LightPipeline(fit_cm_pipeline)
+# COMMAND ----------
 
-mapping = cm_lp.fullAnnotate(NORM_ORG)[0]
+company_df = spark.createDataFrame([[NORM_ORG]]).toDF("text")
+
+mappings = fit_cm_pipeline.transform(company_df)
 
 # COMMAND ----------
 
-mapping
+mappings.show()
 
 # COMMAND ----------
 
-for key, value in mapping.items():
-  if key == 'mappings':
-    for relation in mapping[key]:
+collected_mappings = mappings.select('mappings').collect()
+
+for collected_mapping in collected_mappings:
+  for relation in mapping['mappings']:
       text = relation.result
       relation_name = relation.metadata['relation']
       print(f"{ORG} - has_{relation_name} - {text}")

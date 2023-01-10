@@ -3,7 +3,13 @@
 
 # COMMAND ----------
 
-# MAGIC %pip install johnsnowlabs==4.2.3 networkx==2.5 decorator==5.0.9 plotly==5.1.0 
+# MAGIC %md # Preinstallation
+# MAGIC `johnsnowlabs` should come installed in your cluster. Just in case it is not, we install it.
+# MAGIC We also install visualization libraries for rendering the graph.
+
+# COMMAND ----------
+
+# MAGIC %pip install -q networkx==2.5 decorator==5.0.9 plotly==5.1.0
 
 # COMMAND ----------
 
@@ -67,17 +73,8 @@ print(f"Spark NLP PySpark: {johnsnowlabs.settings.raw_version_pyspark}")
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Let's install the graph and visualization libraries
-
-# COMMAND ----------
-
-!pip install -q networkx==2.5 decorator==5.0.9 plotly==5.1.0
-
-# COMMAND ----------
-
-# MAGIC %md
-# MAGIC Let's import them and reload, in case other versions of the libraries were present
+# MAGIC %md ## Visualization Libraries
+# MAGIC Checking they are installed, reimporting them
 
 # COMMAND ----------
 
