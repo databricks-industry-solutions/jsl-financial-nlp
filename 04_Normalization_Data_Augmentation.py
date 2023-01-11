@@ -161,7 +161,7 @@ mappings.show()
 collected_mappings = mappings.select('mappings').collect()
 
 for collected_mapping in collected_mappings:
-  for relation in mapping['mappings']:
+  for relation in collected_mapping['mappings']:
       text = relation.result
       relation_name = relation.metadata['relation']
       print(f"{ORG} - has_{relation_name} - {text}")
