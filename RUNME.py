@@ -33,7 +33,7 @@ from solacc.companion import NotebookSolutionCompanion
 # COMMAND ----------
 
 cluster_json = {
-    "num_workers": 8,
+    "num_workers": 4,
     "cluster_name": "sparkNLP_FSI_v4",
     "spark_version": "9.1.x-cpu-ml-scala2.12", # This needs to match JSL version in partner connect
     "spark_conf": {
@@ -41,7 +41,7 @@ cluster_json = {
         "spark.kryoserializer.buffer.max": "2000M",
         "spark.databricks.delta.formatCheck.enabled": "false"
     },
-    "node_type_id": {"AWS": "i3.xlarge", "MSA": "Standard_DS3_v2", "GCP": "n1-highmem-4"}, # different from standard API; this is multi-cloud friendly
+    "node_type_id": {"AWS": "i3.2xlarge", "MSA": "Standard_DS4_v2", "GCP": "n1-highmem-4"}, # different from standard API; this is multi-cloud friendly
     "autotermination_minutes": 120
 }
 
