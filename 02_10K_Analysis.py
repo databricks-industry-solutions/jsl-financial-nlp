@@ -61,7 +61,7 @@ document_assembler = nlp.DocumentAssembler() \
         .setInputCol("text") \
         .setOutputCol("document")
 
-sentence_detector = finance.TextSplitter() \
+sentence_detector = nlp.SentenceDetector() \
     .setInputCols(["document"]) \
     .setOutputCol("pages")\
     .setCustomBounds(["Table of Contents"])\
@@ -209,7 +209,7 @@ document_assembler = nlp.DocumentAssembler() \
         .setInputCol("text") \
         .setOutputCol("document")
 
-sentence_detector = finance.TextSplitter() \
+sentence_detector = nlp.SentenceDetector() \
     .setInputCols(["document"]) \
     .setOutputCol("paragraphs")
 
