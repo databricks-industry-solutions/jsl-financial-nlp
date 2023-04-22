@@ -37,7 +37,7 @@
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC <img src="https://raw.githubusercontent.com/JohnSnowLabs/spark-nlp-workshop/master/tutorials/Certification_Trainings_JSL/Finance/data/solution_accelerator_ecosystem/series_of_notebooks.png" width="1000">
+# MAGIC <img src="https://raw.githubusercontent.com/JohnSnowLabs/spark-nlp-workshop/master/finance-nlp/data/solution_accelerator_ecosystem/series_of_notebooks.png" width="1000">
 
 # COMMAND ----------
 
@@ -47,7 +47,7 @@
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC <img src="https://github.com/JohnSnowLabs/spark-nlp-workshop/raw/master/tutorials/Certification_Trainings_JSL/Finance/data/solution_accelerator_ecosystem/img10.png" alt="drawing" width="800"/>
+# MAGIC <img src="https://github.com/JohnSnowLabs/spark-nlp-workshop/raw/master/finance-nlp/data/solution_accelerator_ecosystem/img10.png" alt="drawing" width="800"/>
 
 # COMMAND ----------
 
@@ -96,3 +96,7 @@ print(f"Plotly version: {plotly.__version__}")
 
 # MAGIC %md
 # MAGIC # You can proceed to 02 - Analysis!
+
+# COMMAND ----------
+
+
