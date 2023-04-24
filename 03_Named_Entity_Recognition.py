@@ -205,3 +205,7 @@ pickle.dump(G, open('/databricks/driver/cadence.pickle', 'wb'))
 
 # MAGIC %md
 # MAGIC # Now you can proceed to 04 Normalization and Data Augmentation!
+
+# COMMAND ----------
+
+

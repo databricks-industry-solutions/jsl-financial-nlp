@@ -25,7 +25,7 @@
 
 # COMMAND ----------
 
-!wget -O /databricks/driver/cdns-20220101.html.txt https://raw.githubusercontent.com/JohnSnowLabs/spark-nlp-workshop/master/tutorials/Certification_Trainings_JSL/Finance/data/cdns-20220101.html.txt
+!wget -O /databricks/driver/cdns-20220101.html.txt https://raw.githubusercontent.com/JohnSnowLabs/spark-nlp-workshop/master/finance-nlp/data/cdns-20220101.html.txt
 
 # COMMAND ----------
 
@@ -55,7 +55,7 @@ print(cadence_sec10k[:700])
 
 # COMMAND ----------
 
-from johnsnowlabs import nlp, finance
+from johnsnowlabs import nlp,finance
 
 document_assembler = nlp.DocumentAssembler() \
         .setInputCol("text") \
@@ -103,7 +103,7 @@ print(pages[0])
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC <img src="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings_JSL/Finance/data/10k_image.png?raw=true"/>
+# MAGIC <img src="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/finance-nlp/data/10k_image.png?raw=true"/>
 
 # COMMAND ----------
 
